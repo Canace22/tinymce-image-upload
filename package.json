@@ -1,7 +1,7 @@
 {
   "name": "image-t",
   "version": "1.0.0",
-  "description": "",
+  "description": "tinymce image upload plugin",
   "scripts": {
     "prepublishOnly": "npm run lint && npm run build",
     "lint": "tslint src/**/*.ts",

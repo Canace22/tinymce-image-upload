@@ -1,6 +1,6 @@
 function getQiniuToken(fileExt, callback): any {
   const url =
-    "https://api.ebag-test.readboy.com/questionare/v1/upload/token" +
+    "<获取 token 接口>" +
     `?F_file_ext=${fileExt}`;
   const xhr = new XMLHttpRequest();
 
@@ -18,7 +18,7 @@ function getQiniuToken(fileExt, callback): any {
 function getUrl(formdata, callback) {
   const xhr = new XMLHttpRequest();
 
-  xhr.open("POST", "https://up-z0.qiniup.com", true);
+  xhr.open("POST", "<七牛上传地址>", true);
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
