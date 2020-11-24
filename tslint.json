@@ -4,6 +4,8 @@
       "@ephox/tslint-rules/tslint.json"
   ],
   "jsRules": {},
-  "rules": {},
+  "rules": {
+    "quotemark": false
+  },
   "rulesDirectory": []
 }

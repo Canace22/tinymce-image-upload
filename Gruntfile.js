@@ -16,41 +16,42 @@ module.exports = function(grunt) {
     pkg: packageData,
 
     clean: {
-      dirs: [ 'dist', 'scratch' ]
+      dirs: ["dist", "scratch"],
     },
 
     tslint: {
       options: {
-        configuration: 'tslint.json'
+        configuration: "tslint.json",
       },
-      plugin: ['src/**/*.ts']
+      plugin: ["src/**/*.ts"],
     },
 
     shell: {
-      command: 'tsc'
+      command: "tsc",
     },
 
     rollup: {
       options: {
         treeshake: true,
-        format: 'iife',
+        format: "iife",
         onwarn: swag.onwarn,
         plugins: [
           swag.nodeResolve({
             basedir: __dirname,
-            prefixes: {}
+            prefixes: {},
           }),
-          swag.remapImports()
-        ]
+          swag.remapImports(),
+
+        ],
       },
       plugin: {
         files: [
           {
             src: libPluginPath,
-            dest: scratchPluginPath
-          }
-        ]
-      }
+            dest: scratchPluginPath,
+          },
+        ],
+      },
     },
 
     uglify: {
@@ -58,103 +59,103 @@ module.exports = function(grunt) {
         files: [
           {
             src: scratchPluginPath,
-            dest: scratchPluginMinPath
-          }
-        ]
-      }
+            dest: scratchPluginMinPath,
+          },
+        ],
+      },
     },
 
     concat: {
       license: {
         options: {
-          process: function(src) {
+          process: function (src) {
             var buildSuffix = process.env.BUILD_NUMBER
-              ? '-' + process.env.BUILD_NUMBER
-              : '';
+              ? "-" + process.env.BUILD_NUMBER
+              : "";
             return src.replace(
               /@BUILD_NUMBER@/g,
               packageData.version + buildSuffix
             );
-          }
+          },
         },
         // scratchPluginMinPath is used twice on purpose, all outputs will be minified for premium plugins
         files: {
-          'dist/image/plugin.js': [
-            'src/text/license-header.js',
-            scratchPluginMinPath
+          "dist/imageUpload/plugin.js": [
+            "src/text/license-header.js",
+            scratchPluginMinPath,
           ],
-          'dist/image/plugin.min.js': [
-            'src/text/license-header.js',
-            scratchPluginMinPath
-          ]
-        }
-      }
+          "dist/imageUpload/plugin.min.js": [
+            "src/text/license-header.js",
+            scratchPluginMinPath,
+          ],
+        },
+      },
     },
 
     copy: {
       css: {
         files: [
           {
-            cwd: 'src/text',
-            src: ['license.txt'],
-            dest: 'dist/image',
-            expand: true
+            cwd: "src/text",
+            src: ["license.txt"],
+            dest: "dist/imageUpload",
+            expand: true,
           },
-          { src: ['changelog.txt'], dest: 'dist/image', expand: true }
-        ]
-      }
+          { src: ["changelog.txt"], dest: "dist/imageUpload", expand: true },
+        ],
+      },
     },
 
     webpack: {
       options: {
-        mode: 'development',
-        watch: true
+        mode: "development",
+        watch: true,
       },
       dev: {
         entry: tsDemoSourceFile,
-        devtool: 'source-map',
+        devtool: "source-map",
 
         resolve: {
-          extensions: ['.ts', '.js']
+          extensions: [".ts", ".js"],
         },
 
         module: {
           rules: [
             {
               test: /\.js$/,
-              use: ['source-map-loader'],
-              enforce: 'pre'
+              use: ["source-map-loader"],
+              enforce: "pre",
             },
             {
               test: /\.ts$/,
               use: [
                 {
-                  loader: 'ts-loader',
+                  loader: "ts-loader",
                   options: {
                     transpileOnly: true,
-                    experimentalWatchApi: true
-                  }
-                }
-              ]
-            }
-          ]
+                    experimentalWatchApi: true,
+                  },
+                },
+              ],
+            },
+          ],
         },
 
         plugins: [new LiveReloadPlugin(), new CheckerPlugin()],
 
         output: {
           filename: path.basename(jsDemoDestFile),
-          path: path.dirname(jsDemoDestFile)
-        }
-      }
-    }
+          path: path.dirname(jsDemoDestFile),
+        },
+      },
+    },
   });
 
   require('load-grunt-tasks')(grunt);
   grunt.loadNpmTasks('@ephox/swag');
 
   grunt.registerTask('version', 'Creates a version file', function () {
-    grunt.file.write('dist/image/version.txt', BUILD_VERSION);
+    grunt.file.write('dist/imageUpload/version.txt', BUILD_VERSION);
   });
 
   grunt.registerTask('default', [

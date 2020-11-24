@@ -16,5 +16,5 @@
     "src/main/ts",
     "src/test/ts",
     "node_modules/@ephox/**/*/api/Main.d.ts"
-  ]
+  ],
 }
