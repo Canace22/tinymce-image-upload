@@ -1,7 +1,5 @@
 function getQiniuToken(fileExt, callback): any {
-  const url =
-    "<获取 token 接口>" +
-    `?F_file_ext=${fileExt}`;
+  const url = `${process.env.tokenApi}?F_file_ext=${fileExt}`;
   const xhr = new XMLHttpRequest();
 
   xhr.open("GET", url, true);
